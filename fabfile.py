@@ -19,6 +19,14 @@ def restart_nginx():
   fab.run('sudo kill -HUP `cat /var/run/nginx.pid`')
 
 
+def deploy():
+  setup_aws()
+  remote_repo_dir = '/usr/share/nginx/html/sniff/sniff-ng'
+  with cd(remote_repo_dir):
+    fab.run('git pull')
+  restart_nginx()
+
+
 def aws_hosts():
     # This assumes your bash_profile has AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY set.
  
