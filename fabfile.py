@@ -8,7 +8,7 @@ SSH_KEY_FILE = '/Users/madadam/work/aws/testkeypair.pem'
 
 def setup_aws():
   # FIXME get from load balancer.
-  fab.env.hosts = ['ec2-54-236-246-49.compute-1.amazonaws.com']
+  fab.env.hosts = ['ec2-54-209-220-21.compute-1.amazonaws.com']
   fab.env.key_filename = SSH_KEY_FILE
   fab.env.user = SERVER_USER
   # this breaks:
