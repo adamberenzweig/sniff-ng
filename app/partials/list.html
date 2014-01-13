@@ -1,0 +1,20 @@
+<h2>Materials</h2>
+<input type="text" ng-model="filter" class="search-query" placeholder="Filter">  
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Bottle</th>
+    <th>Notes</th>
+    <th><a href="#/materials/new"<i class="icon-plus-sign"></i></a></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="material in materials | filter:filter | orderBy:'name'">
+    <td><a href="#/materials/{{material.$id}}">{{material.name}}</a></td>
+    <td>{{material.bottle}}</td>
+    <td>{{material.notes | limitTo:40}}</td>
+    <td><a href="#/materials/{{material.$id}}"><i class="icon-pencil"></i></a></td>
+  </tr>
+  </tbody>
+</table>

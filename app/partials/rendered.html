@@ -1,0 +1,23 @@
+<h2>{{material.name}}</h2>
+{{material.notes}}
+
+<div ng-if="rendered_components">
+<h3>Rendered Components</h3>
+<table>
+  <thead>
+  <tr>
+    <th>Accord</th>
+    <th>Amount</th>
+    <th>Dilution</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- TODO: order by amount or name toggle -->
+  <tr ng-repeat="component in rendered_components | orderBy:'-amount'">
+    <td><a href="#/materials/{{component.accord_id}}">{{component.accord_name}}</a></td>
+    <td>{{component.amount}}</td>
+    <td>{{component.dilution}}</td>
+  </tr>
+  </tbody>
+</table>
+</div>

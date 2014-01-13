@@ -1,0 +1,74 @@
+<form name="materialForm">
+  <div class="control-group" ng-class="{error: materialForm.name.$invalid}">
+    <label>Name</label>
+    <input type="text" name="name" ng-model="material.name" required>
+    <span ng-show="materialForm.name.$error.Required"
+          class="help-inline">Required</span>
+  </div>
+
+  <div>
+    <label>Bottle</label>
+    <!-- FIXME: error handling -->
+    <input type="number" min="0" name="bottle" ng-model="material.bottle">
+  </div>
+
+  <label>Notes</label>
+  <textarea name="notes" ng-model="material.notes"></textarea>
+
+  <br>
+  <a href="#/" class="btn">Cancel</a>
+  <button ng-click="save()" ng-disabled="isClean() || materialForm.$invalid"
+     class="btn btn-primary">Save</button>
+  <button ng-click="destroy()" ng-show="material.$id"
+     class="btn btn-danger">Delete</button>
+</form>
+
+<!-- TODO: move component list to separate partial? -->
+<div ng-if="material.components">
+<h3>Components</h3>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Accord</th>
+    <th>Amount</th>
+    <th>Dilution</th>
+    <th>Delete</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- TODO: order by amount or name toggle -->
+  <tr ng-repeat="component in material.components | orderBy:'-amount'">
+    <td><a href="#/materials/{{component.accord_id}}">{{component.accord_name}}</a></td>
+    <td>
+    <input type="number" min=0 step="any" name="amount" placeholder="Amount"
+     ng-model="component.amount"></td>
+    <td>{{component.dilution}}</td>
+    <td><a ng-click="removeComponent(component)"><i class="icon-remove"></i></a></td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- TODO: Get ng-grid working.  Currently giving js errors on edit.
+I think it's complaining that the component objects don't have focus and filter
+methods.
+FIXME: If not, then get rid of ng-grid dependency.
+<div class="gridStyle" ng-grid="componentGridOptions"></div>
+-->
+</div>
+
+<form name="componentForm">
+<!-- FIXME: Move style to css, or better use bootstrap classes. -->
+<div style="float:left;">
+  <input type="text" ng-model="new_component.accord_name" class="search-query"
+   typeahead="m.name for m in accord_list | filter:$viewValue | orderBy:'name'"
+   typeahead-on-select="selectComponent()"
+   placeholder="Accord">  
+</div>
+<div style="float:left;">
+  <input type="number" min=0 step="any" name="amount" placeholder="Amount"
+   ng-model="new_component.amount">
+  <button ng-click=addComponent() class="btn btn-primary">Add</button>
+</div>
+</form>
+
+<button ng-click="LogToConsole(material)">Log material to console</button>
