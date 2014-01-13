@@ -11,7 +11,8 @@ def setup_aws():
   fab.env.hosts = ['ec2-54-236-246-49.compute-1.amazonaws.com']
   fab.env.key_filename = SSH_KEY_FILE
   fab.env.user = SERVER_USER
-  fab.env.parallel = True
+  # this breaks:
+  #fab.env.parallel = True
 
 
 def restart_nginx():
@@ -20,11 +21,16 @@ def restart_nginx():
 
 
 def deploy():
-  setup_aws()
+  # FIXME: this doesn't do what I think; can't chain tasks?  Have to call
+  # separately from commandline, e.g. "fab setup_aws deploy".
+  # See:
+  # http://stackoverflow.com/questions/9075364/how-can-i-properly-set-the-env-hosts-in-a-function-in-my-python-fabric-fabfil
+  #setup_aws()
   remote_repo_dir = '/usr/share/nginx/html/sniff/sniff-ng'
-  with cd(remote_repo_dir):
+  with fab.cd(remote_repo_dir):
     fab.run('git pull')
-  restart_nginx()
+  # Currently not necessary to restart.
+  #restart_nginx()
 
 
 def aws_hosts():
